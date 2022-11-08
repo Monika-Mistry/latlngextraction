@@ -8,7 +8,6 @@ const parseFile = async () => {
     const parser =fs.createReadStream(path.join(__dirname, "data/Traffic_Volumes_AADT.csv")).pipe(parse({
         delimiter: ",",
         skip_empty_lines: true,
-        to_line: 5,
         columns: true
 
     }))

@@ -8,15 +8,16 @@ const parseFile = async () => {
     const parser =fs.createReadStream(path.join(__dirname, "data/Traffic_Volumes_AADT.csv")).pipe(parse({
         delimiter: ",",
         skip_empty_lines: true,
-        columns: true
-
+        columns: true,
+        header: true
     }))
 
     const writer = fs.createWriteStream(path.join(__dirname, "data/outputLatLng.csv"));
     await writer.write("OBJECTID,LAT,LNG\r\n")
 
     for await (const row of parser) {
-        const id = row.OBJECTID;
+        const values = Object.values(row);
+        const id = values[0];
         const county = row.COUNTY;
         const route = row.ROUTE + row.RTE_SFX;
         const postmile = row.PM_PFX + row.PM + row.PM_SFX
